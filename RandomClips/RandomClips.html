@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Ar būtum geras verslininkas?</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="RandomClips.css">
+</head>
+<body>
+
+<div class="stage">
+
+  <div class="chart-wrap">
+    <svg viewBox="0 0 600 52" preserveAspectRatio="none">
+      <defs>
+        <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5b6cff" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#5b6cff" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <path class="chart-area" d="M0,42 L70,38 L140,40 L210,26 L280,30 L350,16 L420,20 L490,6 L560,10 L600,2 L600,52 L0,52 Z" />
+      <path class="chart-line" d="M0,42 L70,38 L140,40 L210,26 L280,30 L350,16 L420,20 L490,6 L560,10 L600,2" />
+    </svg>
+  </div>
+
+  <!-- LANDING -->
+  <section class="screen active" id="screen-landing">
+    <div class="eyebrow">Verslumo testas</div>
+    <h1>Ar būtum geras <em>verslininkas?</em></h1>
+    <p class="lead">Trumpas testas apie riziką, sprendimų priėmimą, atkaklumą ir požiūrį į pinigus — pagal atsakymus įvertinsime tavo verslumo potencialą.</p>
+    <div class="meta-row">
+      <div class="meta-item"><b id="q-total-label">12</b> klausimų</div>
+      <div class="meta-item"><b>~2</b> min</div>
+      <div class="meta-item"><b>0</b> registracijos</div>
+    </div>
+    <button class="btn-primary" onclick="startQuiz()">Pradėti testą →</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen" id="screen-quiz">
+    <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+    <div class="q-count" id="q-count">KLAUSIMAS 1 / 12</div>
+    <div class="q-text" id="q-text">—</div>
+    <div class="options" id="q-options"></div>
+    <div class="nav-row">
+      <button class="btn-ghost" id="btn-back" onclick="prevQuestion()">← Atgal</button>
+      <button class="btn-primary" id="btn-next" onclick="nextQuestion()" disabled>Toliau →</button>
+    </div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen" id="screen-result">
+    <div class="result-badge" id="result-badge">Rezultatas</div>
+    <div class="result-score"><span id="result-score-num">0</span><span class="unit">/ 100</span></div>
+    <h2 class="result-title" id="result-title">—</h2>
+    <p class="result-desc" id="result-desc">—</p>
+
+    <div class="result-bar-wrap">
+      <div class="result-bar-track"><div class="result-bar-fill" id="result-bar-fill"></div></div>
+      <div class="result-bar-labels"><span>Samdomas darbas</span><span>Turi potencialo</span><span>Gimęs verslininkas</span></div>
+    </div>
+
+    <div class="actions">
+      <button class="btn-primary" onclick="restartQuiz()">Bandyti dar kartą</button>
+    </div>
+    <footer class="note">Šis testas skirtas savistabai ir yra tik pramoginio pobūdžio.</footer>
+  </section>
+
+</div>
+
+<script src="RandomClips.js"></script>
+
+</body>
+</html>

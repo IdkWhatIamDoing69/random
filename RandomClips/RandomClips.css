@@ -1,0 +1,288 @@
+/* ====== SPALVOS / KINTAMIEJI ====== */
+  :root{
+    --bg: #0b0d12;
+    --bg-alt: #10131b;
+    --line: #262c3a;
+    --text: #eef0f4;
+    --text-dim: #8d94a6;
+    --accent: #5b6cff;   /* pagrindinė signalinė spalva - "verslo" mėlyna */
+    --growth: #34d399;   /* teigiamas rezultatas - žalia (augimas) */
+    --caution: #f2a544;  /* vidutinis rezultatas - gintarinė */
+    --risk: #ef6a5f;     /* žemas rezultatas - koralinė raudona */
+  }
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior:smooth; height:100%; }
+  /* pašalina pilkos dėmės "flash" efektą palietus mygtuką TikTok/mobile naršyklėse */
+  html, body{ -webkit-tap-highlight-color: transparent; }
+
+  /* ====== BODY / PAGRINDINIS ŠRIFTAS ====== */
+  /* Inter = tekstas, Space Grotesk = antraštės, IBM Plex Mono = skaitikliai/duomenys */
+  /* MOBILE-FIRST: bazinis stilius yra telefonui (didžioji dalis srauto iš TikTok).
+     Turinys prasideda nuo viršaus (ne centruotas vertikaliai) — TikTok in-app naršyklėje
+     adreso juosta pasirodo/pradingsta ir keičia realų aukštį, todėl vertikalus centravimas
+     sukelia turinio "šokinėjimą". Nuo tablet dydžio (768px+) grąžinam centravimą. */
+  body{
+    background:
+      radial-gradient(70% 60% at 15% -10%, rgba(91,108,255,0.14) 0%, transparent 60%),
+      radial-gradient(60% 50% at 100% 0%, rgba(52,211,153,0.08) 0%, transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    min-height: 100svh; /* svh = "small viewport height", stabiliau nei vh mobile naršyklėse */
+    min-height: 100vh;  /* fallback senesnėms naršyklėms, kurios nepažįsta svh */
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding: max(20px, env(safe-area-inset-top)) 16px max(24px, env(safe-area-inset-bottom));
+    overflow-x:hidden;
+    width:100%;
+  }
+  @media (min-width: 768px){
+    body{
+      align-items:center;
+      padding: 32px 20px;
+    }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+
+  .stage{ width:100%; max-width: 640px; position:relative; }
+
+  /* ====== SIGNATŪRINIS ELEMENTAS: augimo grafiko linija viršuje ====== */
+  .chart-wrap{
+    width:100%;
+    height:52px;
+    margin-bottom: 28px;
+    overflow:hidden;
+  }
+  .chart-wrap svg{ width:100%; height:100%; display:block; }
+  .chart-area{
+    fill: url(#chartGradient);
+    opacity: 0;
+    animation: fadeIn 1s ease 1.4s forwards;
+  }
+  .chart-line{
+    fill:none;
+    stroke: var(--accent);
+    stroke-width:2.5;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    stroke-dasharray: 700;
+    stroke-dashoffset: 700;
+    animation: draw 1.6s cubic-bezier(.65,0,.35,1) forwards;
+  }
+  @keyframes draw{ to{ stroke-dashoffset: 0; } }
+  @keyframes fadeIn{ to{ opacity:1; } }
+
+  /* ====== LANDING EKRANAS ====== */
+  .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:'';
+    width:6px; height:6px;
+    background: var(--accent);
+    border-radius:50%;
+    display:inline-block;
+  }
+
+  /* ŠRIFTAS: h1 naudoja Space Grotesk (drąsus, geometrinis) */
+  /* MOBILE-FIRST: mažiausias dydis siaurame ekrane (28px), auga iki 48px per clamp() */
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size: clamp(28px, 7.5vw, 48px);
+    line-height:1.1;
+    letter-spacing:-0.01em;
+    margin-bottom:16px;
+  }
+  h1 em{ font-style:normal; color: var(--accent); }
+
+  p.lead{
+    color: var(--text-dim);
+    font-size:15px;
+    line-height:1.6;
+    max-width: 46ch;
+    margin-bottom: 26px;
+  }
+
+  .meta-row{ display:flex; gap:16px; margin-bottom: 28px; flex-wrap:wrap; row-gap:8px; }
+  .meta-item{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:13px;
+    color: var(--text-dim);
+    display:flex; align-items:center; gap:8px;
+  }
+  .meta-item b{ color:var(--text); font-weight:500; }
+
+  /* ====== MYGTUKAI ====== */
+  /* MOBILE-FIRST: min-height 48px atitinka rekomenduojamą minimalų tap target dydį (Apple/Google).
+     touch-action:manipulation pašalina 300ms delay dvigubam tap zoom mobile naršyklėse. */
+  button{
+    font-family:'Inter', sans-serif;
+    cursor:pointer;
+    border:none;
+    touch-action: manipulation;
+  }
+  button:focus-visible, a:focus-visible{ outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  /* MOBILE-FIRST: patogus min-height 52px tap targetui, plotis priklauso nuo konteksto */
+  .btn-primary{
+    background: var(--accent);
+    color: #0b0d12;
+    font-weight:600;
+    font-size:16px;
+    padding: 15px 28px;
+    min-height:52px;
+    border-radius: 10px;
+    transition: transform .18s ease, box-shadow .18s ease;
+    box-shadow: 0 8px 24px -8px rgba(91,108,255,0.55);
+  }
+  /* landing ekrano CTA - pilnas plotis telefone (lengviau pasiekti nykščiu), fiksuoto pločio nuo tablet */
+  #screen-landing .btn-primary{ width:100%; }
+  @media (min-width: 768px){
+    #screen-landing .btn-primary{ width:auto; }
+    .btn-primary{ font-size:15px; min-height:auto; padding:15px 30px; }
+  }
+  /* hover efektus rodom tik pelės įrenginiuose - kitaip mobile lieka "įstrigęs" hover po palietimo */
+  @media (hover:hover) and (pointer:fine){
+    .btn-primary:hover{ transform: translateY(-2px); box-shadow: 0 12px 28px -8px rgba(91,108,255,0.65); }
+  }
+  .btn-primary:active{ transform: scale(0.98); box-shadow: 0 6px 16px -8px rgba(91,108,255,0.5); }
+  .btn-primary:disabled{ opacity:0.35; cursor:not-allowed; transform:none; box-shadow:none; }
+
+  .btn-ghost{
+    background: transparent;
+    color: var(--text-dim);
+    border: 1px solid var(--line);
+    font-size:14px;
+    padding: 12px 20px;
+    min-height:44px;
+    border-radius: 10px;
+    transition: border-color .18s ease, color .18s ease;
+  }
+  @media (hover:hover) and (pointer:fine){
+    .btn-ghost:hover{ border-color: var(--accent); color: var(--text); }
+  }
+  .btn-ghost:active{ border-color: var(--accent); color: var(--text); }
+
+  /* ====== EKRANŲ PERJUNGIMAS ====== */
+  .screen{ display:none; }
+  .screen.active{ display:block; animation: fadeUp .5s ease both; }
+  @keyframes fadeUp{
+    from{ opacity:0; transform: translateY(10px); }
+    to{ opacity:1; transform: translateY(0); }
+  }
+
+  /* ====== QUIZ EKRANAS: progreso juosta ====== */
+  .progress-track{
+    width:100%; height:3px; background: var(--line);
+    border-radius: 2px; margin-bottom: 30px; overflow:hidden;
+  }
+  .progress-fill{
+    height:100%;
+    background: linear-gradient(90deg, var(--accent), var(--growth));
+    width:0%;
+    transition: width .45s cubic-bezier(.65,0,.35,1);
+  }
+
+  /* ŠRIFTAS: skaitiklis Mono */
+  .q-count{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color: var(--text-dim);
+    letter-spacing:0.08em; margin-bottom:14px;
+  }
+
+  /* ŠRIFTAS: klausimo tekstas Space Grotesk */
+  .q-text{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(21px, 3.4vw, 28px);
+    font-weight:600;
+    line-height:1.3;
+    margin-bottom: 26px;
+  }
+
+  /* ====== QUIZ EKRANAS: atsakymų mygtukai ====== */
+  /* MOBILE-FIRST: min-height ~56px - patogus tap targetas vienu nykščiu */
+  .options{ display:flex; flex-direction:column; gap:10px; margin-bottom: 26px; }
+  .option{
+    text-align:left;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 16px 16px;
+    min-height: 56px;
+    border-radius: 10px;
+    font-size:15px;
+    line-height:1.4;
+    transition: border-color .16s ease, background .16s ease, transform .1s ease;
+    display:flex; align-items:center; gap:14px;
+    touch-action: manipulation;
+  }
+  .option .tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; color: var(--text-dim);
+    border: 1px solid var(--line);
+    width:22px; height:22px; border-radius:6px;
+    display:flex; align-items:center; justify-content:center;
+    flex-shrink:0;
+  }
+  /* hover tik pelės įrenginiuose - mobile touch neturi "sticky hover" problemos */
+  @media (hover:hover) and (pointer:fine){
+    .option:hover{ border-color: var(--accent); background: rgba(91,108,255,0.08); transform: translateX(2px); }
+  }
+  /* MOBILE: apčiuopiamas atsakas paliečiant (vietoj hover) */
+  .option:active{ border-color: var(--accent); background: rgba(91,108,255,0.1); transform: scale(0.99); }
+  .option.selected{ border-color: var(--accent); background: rgba(91,108,255,0.14); }
+  .option.selected .tag{ border-color: var(--accent); color: var(--accent); background: rgba(91,108,255,0.2); }
+
+  /* ====== QUIZ EKRANAS: navigacija ====== */
+  .nav-row{ display:flex; justify-content:space-between; align-items:center; }
+
+  /* ====== REZULTATO EKRANAS ====== */
+  .result-badge{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.14em; text-transform:uppercase;
+    color: var(--accent); margin-bottom:10px;
+  }
+  /* ŠRIFTAS: didelis % skaičius Space Grotesk */
+  .result-score{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(54px, 11vw, 92px);
+    font-weight:700; line-height:1;
+    margin-bottom: 6px;
+    display:flex; align-items:baseline; gap:10px;
+  }
+  .result-score span.unit{
+    font-size:20px; font-family:'Inter', sans-serif;
+    color: var(--text-dim); font-weight:400;
+  }
+  /* ŠRIFTAS: rezultato pavadinimas Space Grotesk */
+  .result-title{
+    font-family:'Space Grotesk', sans-serif;
+    font-size: clamp(21px, 3.4vw, 27px);
+    font-weight:600;
+    margin: 14px 0 12px;
+  }
+  .result-desc{
+    color: var(--text-dim); line-height:1.65; max-width: 50ch; margin-bottom: 30px;
+  }
+  .result-bar-wrap{ margin-bottom: 34px; }
+  .result-bar-track{ height:8px; background: var(--line); border-radius:4px; overflow:hidden; margin-bottom:8px; }
+  .result-bar-fill{ height:100%; border-radius:4px; width:0%; transition: width 1s cubic-bezier(.65,0,.35,1); }
+  .result-bar-labels{
+    display:flex; justify-content:space-between;
+    font-family:'IBM Plex Mono', monospace; font-size:11px; color: var(--text-dim);
+  }
+  .actions{ display:flex; gap:12px; flex-wrap:wrap; }
+
+  footer.note{ margin-top: 40px; font-size:12px; color: var(--text-dim); opacity:0.7; line-height:1.5; }
